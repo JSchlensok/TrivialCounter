@@ -10,7 +10,7 @@ CREATE TABLE classes (
 	added datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 )
 
-CREATE TABLE lecture_trivia_count (
+CREATE TABLE lecture_trivial_count (
 	id int AUTO_INCREMENT PRIMARY KEY,
 	added datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	lecture_time datetime NOT NULL,
