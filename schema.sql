@@ -4,7 +4,7 @@ CREATE TABLE lecturers (
 	added datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE semester (
+CREATE TABLE semesters (
 	id int AUTO_INCREMENT PRIMARY KEY,
 	name varchar(255) NOT NULL
 );
@@ -13,7 +13,7 @@ CREATE TABLE classes (
 	name varchar(255) NOT NULL,
 	added datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	semester_id int NOT NULL,
-	FOREIGN KEY (semester_id) REFERENCES semester(id)
+	FOREIGN KEY (semester_id) REFERENCES semesters(id)
 );
 
 CREATE TABLE lecture_trivial_count (
