@@ -19,6 +19,12 @@
         <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
+        <?php
+            function test(){
+                return "blabla";
+            }
+        ?>
+
     </head>
 
     <body>
@@ -36,16 +42,16 @@
                     </li>
                     <hr>
                     <li>
-                        <a href="index.html?id=Vorlesung 1">Vorlesung_1</a>
+                        <a href="index.php?id=Vorlesung 1">Vorlesung_1</a>
                     </li>
                     <li>
-                        <a href="index.html?id=Vorlesung 2">Vorlesung_2</a>
+                        <a href="index.php?id=Vorlesung 2">Vorlesung_2</a>
                     </li>
                     <li>
-                        <a href="index.html?id=Vorlesung 3">Vorlesung_3</a>
+                        <a href="index.php?id=Vorlesung 3">Vorlesung_3</a>
                     </li>
                     <li>
-                        <a href="index.html?id=Vorlesung 4">Vorlesung_4</a>
+                        <a href="index.php?id=Vorlesung 4">Vorlesung_4</a>
                     </li>
                 </ul>
             </nav>
@@ -97,9 +103,19 @@
                 var query_string = url.search;
                 var search_params = new URLSearchParams(query_string);
                 var id = search_params.get('id');
+                console.log(id);
 
-                if(true/*id exists*/){
-                    document.getElementById("vorlesung").innerText = id;
+
+                if(id !== null/*id exists*/){
+                    var info =  "<?php
+                        include "getData.php";
+                        echo getId()/*json_encode(["test", "bla", 123])*/
+                        ?>";
+                    var name = info;
+                    document.getElementById("vorlesung").innerText = name;
+                    document.getElementById("counter").innerText = info[2];
+                }else{
+                    window.location = "leaderboard.html";
                 }
 
             });
