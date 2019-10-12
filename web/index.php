@@ -36,23 +36,12 @@
                     <h3>TUM Trivial</h3>
                 </div>
 
-                <ul class="list-unstyled components">
+                <ul class="list-unstyled components" id="sidebar_content">
                     <li>
                         <a href="leaderboard.html">Leaderboard</a>
                     </li>
                     <hr>
-                    <li>
-                        <a href="index.php?id=Vorlesung 1">Vorlesung_1</a>
-                    </li>
-                    <li>
-                        <a href="index.php?id=Vorlesung 2">Vorlesung_2</a>
-                    </li>
-                    <li>
-                        <a href="index.php?id=Vorlesung 3">Vorlesung_3</a>
-                    </li>
-                    <li>
-                        <a href="index.php?id=Vorlesung 4">Vorlesung_4</a>
-                    </li>
+
                 </ul>
             </nav>
 
@@ -103,17 +92,30 @@
                 var query_string = url.search;
                 var search_params = new URLSearchParams(query_string);
                 var id = search_params.get('id');
-                console.log(id);
+
+
+                var lecturers = "<?php
+                    include "getData.php";
+                    echo getAll()
+                    ?>";
+                console.log(lecturers);
+                lecturers = lecturers.substring(0, lecturers.length - 1);
+                lecturers = lecturers.substring(1, lecturers.length);
+                lecturers = lecturers.split(";");
+                console.log(lecturers);
+
+                for(var i = 0; i < lecturers.length; i++){
+                    document.getElementById("sidebar_content").innerHTML = document.getElementById("sidebar_content").innerHTML + "<li><a href='index.php?id="+lecturers[i]+"'>"+lecturers[i]+"</a> </li>"
+                }
 
 
                 if(id !== null/*id exists*/){
-                    var info =  "<?php
-                        include "getData.php";
-                        echo getId()/*json_encode(["test", "bla", 123])*/
-                        ?>";
+                    var info = <?php
+                        echo getId($_GET['id'])
+                        ?>;
                     var name = info;
-                    document.getElementById("vorlesung").innerText = name;
-                    document.getElementById("counter").innerText = info[2];
+                    document.getElementById("vorlesung").innerText = id;
+                    document.getElementById("counter").innerText = info;
                 }else{
                     window.location = "leaderboard.html";
                 }
