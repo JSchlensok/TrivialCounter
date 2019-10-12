@@ -38,7 +38,7 @@
 
                 <ul class="list-unstyled components" id="sidebar_content">
                     <li>
-                        <a href="leaderboard.html">Leaderboard</a>
+                        <a href="leaderboard.php">Leaderboard</a>
                     </li>
                     <hr>
 

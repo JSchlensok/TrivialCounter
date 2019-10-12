@@ -30,23 +30,11 @@
                     <h3>TUM Trivial</h3>
                 </div>
 
-                <ul class="list-unstyled components">
+                <ul class="list-unstyled components" id="sidebar_content">
                     <li>
-                        <a href="leaderboard.html">Leaderboard</a>
+                        <a href="leaderboard.php">Leaderboard</a>
                     </li>
                     <hr>
-                    <li>
-                        <a href="index.php?id=Vorlesung 1">Vorlesung_1</a>
-                    </li>
-                    <li>
-                        <a href="index.php?id=Vorlesung 2">Vorlesung_2</a>
-                    </li>
-                    <li>
-                        <a href="index.php?id=Vorlesung 3">Vorlesung_3</a>
-                    </li>
-                    <li>
-                        <a href="index.php?id=Vorlesung 4">Vorlesung_4</a>
-                    </li>
                 </ul>
             </nav>
 
@@ -65,42 +53,6 @@
                 <div id="leaderboard_page">
                     <h1 id="Leaderboard">Leaderboard</h1>
                     <br>
-                    <div class="card first bg-light text-dark">
-                        <div class="card-body" style="text-align: start">
-                            <span class="place">1</span>
-                            <div style="width:100%;text-align: center;display: inline-block"><a href="index.php?id=tim struppi" id="tim_struppi">Tim Struppi</a></div>
-                        </div>
-                    </div>
-                    <div class="card bg-light text-dark second">
-                        <div class="card-body" style="text-align: start">
-                            <span class="place">2</span>
-                            <div style="width:100%;text-align: center;display: inline-block"><a href="index.php?id=x y" id="x_y">x y</a></div>
-                        </div>
-                    </div>
-                    <div class="card bg-light text-dark third">
-                        <div class="card-body" style="text-align: start">
-                            <span class="place">3</span>
-                            <div style="width:100%;text-align: center;display: inline-block"><a href="index.php?id=a b" id="a_b">a b</a></div>
-                        </div>
-                    </div>
-                    <div class="card bg-light text-dark">
-                        <div class="card-body" style="text-align: start">
-                            <span class="place">4</span>
-                            <div style="width:100%;text-align: center;display: inline-block"><a href="index.php?id=asdf tgre" id="asdf_tgre">asdf tgre</a></div>
-                        </div>
-                    </div>
-                    <div class="card bg-light text-dark">
-                        <div class="card-body" style="text-align: start">
-                            <span class="place">5</span>
-                            <div style="width:100%;text-align: center;display: inline-block"><a href="index.php?id=kö wee" id="kö_wee">kö wee</a></div>
-                        </div>
-                    </div>
-                    <div class="card bg-light text-dark">
-                        <div class="card-body" style="text-align: start">
-                            <span class="place">6</span>
-                            <div style="width:100%;text-align: center;display: inline-block"><a href="index.php?id=asdf rgt" id="asdf_rgt">asdf rgt</a></div>
-                        </div>
-                    </div>
 
                 </div>
             </div>
@@ -134,9 +86,56 @@
                 var search_params = new URLSearchParams(query_string);
                 var id = search_params.get('id');
 
-                if(true/*id exists*/){
-                    document.getElementById("vorlesung").innerText = id;
-                }
+                $(document).ready(function () {
+                    var url = new URL(window.location.href);
+                    var query_string = url.search;
+                    var search_params = new URLSearchParams(query_string);
+                    var id = search_params.get('id');
+
+
+                    var lecturers = "<?php
+                        include "getData.php";
+                        $all = getAll();
+                        echo $all;
+                        ?>";
+                    lecturers = lecturers.substring(0, lecturers.length - 1);
+                    lecturers = lecturers.substring(1, lecturers.length);
+                    lecturers = lecturers.split(";");
+
+                    for(var i = 0; i < lecturers.length; i++){
+                        document.getElementById("sidebar_content").innerHTML = document.getElementById("sidebar_content").innerHTML + "<li><a href='index.php?id="+lecturers[i]+"'>"+lecturers[i]+"</a> </li>"
+                    }
+
+                    var data = '<?php
+                        echo getLeaderboard()
+                    ?>';
+                    data = data.substring(0, data.length - 1);
+                    data = data.replace(/"/g, '');
+                    data = data.split(";");
+                    for(var z = 0; z < data.length; z++){
+                        data[z] = data[z].split("|");
+                        data[z][1] = parseInt(data[z][1]);
+                    }
+                    data.sort(function(a,b){return a[1] < b[2]});
+
+                    var page = document.getElementById("leaderboard_page").innerHTML;
+
+                    for(var y = 0; y < data.length; y++) {
+                        document.getElementById("leaderboard_page").innerHTML = page + "<div class=\"card bg-light text-dark\" id=\""+data[y][0]+"\"> <div class=\"card-body\" style=\"text-align: start\"> <span class=\"place\">"+(y+1)+"</span> <div style=\"width:100%;text-align: center;display: inline-block\"><a href=\"index.php?id="+data[y][0]+"\" id=\""+data[y][0]+"\">"+data[y][0]+"</a></div> </div> </div>";
+                        if(y === 0){
+                            document.getElementById(data[y][0]).classList.add("first");
+                        }else if(y === 1){
+                            document.getElementById(data[y][0]).classList.add("second");
+                        }else if(y === 2){
+                            document.getElementById(data[y][0]).classList.add("third");
+                        }
+                        page = document.getElementById("leaderboard_page").innerHTML;
+
+                    }
+
+
+
+                });
 
             });
 
