@@ -50,11 +50,11 @@
              $id = $row["id"];
              $count = "SELECT * FROM lecture_trivial_count WHERE lecturer_id=$id";
              $count_result = $conn->query($count);
+             echo ";".$row["name"]. "|";
              while($lecturecount = $count_result->fetch_assoc()) {
-                 $counter = json_encode($lecturecount["trivial_count"]);
+                 echo $counter = $lecturecount["trivial_count"].",";
              }
-
-             echo $row["name"]."|".$counter.";";
+             //echo $row["name"]."|".$counter.";";
          }
      } else {
          echo "0 results";
@@ -86,7 +86,7 @@
                  $count = "SELECT * FROM lecture_trivial_count WHERE lecturer_id=$id";
                  $count_result = $conn->query($count);
                  while($lecturecount = $count_result->fetch_assoc()) {
-                     echo json_encode($lecturecount["trivial_count"]);
+                     echo $lecturecount["trivial_count"].";";
                  }
 
                  // echo $count_result["trivial_count"];

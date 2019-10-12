@@ -109,15 +109,23 @@
                     var data = '<?php
                         echo getLeaderboard()
                     ?>';
-                    data = data.substring(0, data.length - 1);
+                    data = data.substring(1, data.length - 1);
                     data = data.replace(/"/g, '');
                     data = data.split(";");
                     for(var z = 0; z < data.length; z++){
                         data[z] = data[z].split("|");
-                        data[z][1] = parseInt(data[z][1]);
+                        data[z][1] = data[z][1].split(",");
+                        data[z][2] = 0;
+                        for(var x = 0; x < data[z][1].length; x++){
+                            if(data[z][1][x] !== ""){
+                                data[z][2] = data[z][2] + parseInt(data[z][1][x]);
+                            }
+                        }
                     }
-                    data.sort(function(a,b){return a[1] < b[2]});
-
+                    console.log(data);
+                    data.sort(function (a, b) {
+                        return b[2] - a[2];
+                    });
                     var page = document.getElementById("leaderboard_page").innerHTML;
 
                     for(var y = 0; y < data.length; y++) {
@@ -132,13 +140,11 @@
                         page = document.getElementById("leaderboard_page").innerHTML;
 
                     }
-
-
-
                 });
-
             });
-
+            function sort(a, b) {
+                return a > b ? -1 : b > a ? 1 : 0;
+            }
 
         </script>
     </body>

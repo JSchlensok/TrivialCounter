@@ -110,12 +110,18 @@
 
 
                 if(id !== null/*id exists*/){
-                    var info = <?php
+                    var info = "<?php
                         echo getId($_GET['id'])
-                        ?>;
-                    var name = info;
+                        ?>";
+                    info = info.substring(0, info.length - 1);
+                    info = info.split(";");
+                    var sum = 0;
+                    for(var j  = 0; j < info.length; j++){
+                        sum = sum + parseInt(info[j]);
+                    }
+
                     document.getElementById("vorlesung").innerText = id;
-                    document.getElementById("counter").innerText = info;
+                    document.getElementById("counter").innerText = sum;
                 }else{
                     window.location = "leaderboard.html";
                 }
