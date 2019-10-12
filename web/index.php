@@ -123,7 +123,7 @@
                     document.getElementById("vorlesung").innerText = id;
                     document.getElementById("counter").innerText = sum;
                 }else{
-                    window.location = "leaderboard.html";
+                    window.location = "leaderboard.php";
                 }
 
             });
